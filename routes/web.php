@@ -8,5 +8,6 @@ Route::get('/', function () {
 });
 
 Route::get('/', [BillController::class, 'index'])->name('bill.index');
+Route::get('/test', [BillController::class, 'test'])->name('bill.index');
 Route::post('/bill/generate', [BillController::class, 'generateBill'])->name('bill.generate');
 Route::get('/orders/{order}', [BillController::class, 'show'])->name('orders.show');

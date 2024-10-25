@@ -17,6 +17,11 @@ class BillController extends Controller
         return view('bill.index');
     }
 
+    public function test()
+    {
+        return view('bill.test');
+    }
+
     public function generateBill(Request $request)
     {
         $validatedData = $request->validate([

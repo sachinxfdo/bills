@@ -5,138 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bill Generation</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <style>
-        /* General Reset and Layout */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f3f4f6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 16px;
-        }
-
-        /* Container Styling */
-        .container {
-            background-color: #fff;
-            padding: 32px;
-            border-radius: 8px;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 640px;
-            position: relative;
-        }
-
-        /* Form Element Styling */
-        h2 {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 16px;
-        }
-        p {
-            color: #4b5563;
-            margin-bottom: 24px;
-        }
-        h3 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        /* Input and Select Styling */
-        .form-input, .form-select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #d1d5db;
-            border-radius: 4px;
-            margin-bottom: 12px;
-        }
-
-        /* Button Styling */
-        .btn, .btn-remove {
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-        .btn-add {
-            background-color: #e5e7eb;
-            color: #1f2937;
-        }
-        .btn-add:hover {
-            background-color: #d1d5db;
-        }
-        .btn-submit {
-            background-color: #fbbf24;
-            color: #ffffff;
-            margin-top: 12px;
-        }
-        .btn-submit:hover {
-            background-color: #f59e0b;
-        }
-        .btn-remove {
-            background-color: #ef4444;
-            color: #ffffff;
-        }
-        .btn-remove:hover {
-            background-color: #dc2626;
-        }
-
-        /* Dropdown Styling */
-        .template-select {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-        }
-    </style>
 </head>
-<body>
-<div class="container">
+<body class="bg-gray-100 flex justify-center items-center min-h-screen p-4">
+<div class="bg-white p-8 rounded-lg shadow-md w-full max-w-2xl relative">
+    <!-- Dropdown for selecting template -->
     <form action="{{ route('bill.generate') }}" method="POST">
         @csrf
-        <div class="template-select">
-            <select name="template" class="form-select">
+        <div class="absolute top-4 right-4">
+            <select name="template" class="p-2 border border-gray-300 rounded">
                 <option value="classic">Classic</option>
                 <option value="qr">QR</option>
                 <option value="barcode">Barcode</option>
             </select>
         </div>
 
-        <h2>Bill Generation</h2>
-        <p>Please fill in the details below to generate your bill.</p>
+        <h2 class="text-2xl font-bold mb-4">Bill Generation</h2>
+        <p class="mb-6 text-gray-600">Please fill in the details below to generate your bill.</p>
 
-        <div>
-            <h3>Personal Info</h3>
-            <input type="text" name="client_name" class="form-input" placeholder="Client Name" required>
-            <input type="text" name="client_address" class="form-input" placeholder="Client Address" required>
-            <input type="email" name="client_email" class="form-input" placeholder="Client Email" required>
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3">Personal Info</h3>
+            <div class="space-y-3">
+                <input type="text" name="client_name" class="w-full p-2 border border-gray-300 rounded"
+                       placeholder="Client Name" required>
+                <input type="text" name="client_address" class="w-full p-2 border border-gray-300 rounded"
+                       placeholder="Client Address" required>
+                <input type="email" name="client_email" class="w-full p-2 border border-gray-300 rounded"
+                       placeholder="Client Email" required>
+            </div>
         </div>
 
-        <div id="items-container">
+        <div id="items-container" class="space-y-4">
             <!-- Items will be added here dynamically -->
         </div>
 
-        <button type="button" id="add-item" class="btn btn-add">Add Item</button>
+        <button type="button" id="add-item"
+                class="w-full mb-4 py-2 px-4 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition duration-200">
+            Add Item
+        </button>
 
-        <div>
-            <select name="shipping_method" class="form-select" required>
+        <div class="mb-4">
+            <select name="shipping_method" class="w-full p-2 border border-gray-300 rounded" required>
                 <option value="">Select Shipping Method</option>
                 <option value="delivery">Delivery</option>
                 <option value="pickup">Pickup</option>
             </select>
         </div>
 
-        <input type="number" name="total_amount" class="form-input" placeholder="Total Amount" required>
+        <div class="mb-6">
+            <input type="number" name="total_amount" class="w-full p-2 border border-gray-300 rounded"
+                   placeholder="Total Amount" required>
+        </div>
 
-        <button type="submit" class="btn btn-submit">Generate Bill</button>
+        <div class="flex justify-between">
+            <button type="submit"
+                    class="py-2 px-4 bg-yellow-400 text-white rounded hover:bg-yellow-500 transition duration-200">
+                Generate Bill
+            </button>
+        </div>
     </form>
 </div>
 
@@ -146,19 +71,19 @@
     document.getElementById('add-item').addEventListener('click', function () {
         const itemsContainer = document.getElementById('items-container');
         const newItem = document.createElement('div');
-        newItem.classList.add('item-container');
+        newItem.classList.add('space-y-2');
         newItem.innerHTML = `
-                <input type="text" name="items[${itemIndex}][description]" class="form-input" placeholder="Item Description" required>
-                <input type="number" name="items[${itemIndex}][quantity]" class="form-input" placeholder="Quantity" required>
-                <input type="number" name="items[${itemIndex}][price]" class="form-input" placeholder="Price" required>
-                <button type="button" class="btn btn-remove">Remove</button>
+                <input type="text" name="items[${itemIndex}][description]" class="w-full p-2 border border-gray-300 rounded" placeholder="Item Description" required>
+                <input type="number" name="items[${itemIndex}][quantity]" class="w-full p-2 border border-gray-300 rounded" placeholder="Quantity" required>
+                <input type="number" name="items[${itemIndex}][price]" class="w-full p-2 border border-gray-300 rounded" placeholder="Price" required>
+                <button type="button" class="remove-item w-full py-1 px-2 bg-red-500 text-white rounded hover:bg-red-600 transition duration-200">Remove</button>
             `;
         itemsContainer.appendChild(newItem);
         itemIndex++;
     });
 
     document.addEventListener('click', function (e) {
-        if (e.target && e.target.classList.contains('btn-remove')) {
+        if (e.target && e.target.classList.contains('remove-item')) {
             e.target.parentElement.remove();
         }
     });

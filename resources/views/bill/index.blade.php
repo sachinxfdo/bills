@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bill Generation</title>
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-100 flex justify-center items-center min-h-screen p-4">
 <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-2xl relative">
